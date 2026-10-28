@@ -1,0 +1,15 @@
+{
+  "name": "MagentaLingo",
+  "short_name": "MagentaLingo",
+  "description": "Microsoft 365 lernen mit Tilly, spielerisch und für den Vertrieb",
+  "lang": "de",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F5F2FC",
+  "theme_color": "#E20074",
+  "icons": [
+    {"src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
