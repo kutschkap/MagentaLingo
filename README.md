@@ -33,5 +33,5 @@ Am besten über GitHub Pages aufrufen. Beim direkten Öffnen von `index.html` l�
    node tools/check-content.js
    ```
    Der Check meldet Fehler im Aufbau und schlägt Alarm, wenn sich Antworten erraten lassen: wenn die richtige Antwort zu oft die längste oder kürzeste ist oder wenn „Stimmt“ und „Stimmt nicht“ nicht ungefähr gleich oft richtig sind. Er läuft auch automatisch bei jedem Push.
-3. In `sw.js` die `VERSION` erhöhen, damit installierte Apps die neuen Inhalte holen.
+3. In `index.html` die `APP_V` und in `sw.js` die `VERSION` erhöhen, damit Browser und installierte Apps sicher die neuen Dateien holen.
 4. Bei Lizenzänderungen das Prüfdatum anpassen (`checked` je Kapitel und `LEARN.checked`).
