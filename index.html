@@ -800,7 +800,9 @@ body.o3d-max{overflow:hidden}
 <body>
 <div id="app"></div>
 
-<script src="content.js"></script>
+<!-- Versionsnummer bei jeder Änderung an content.js/office3d.js erhöhen, damit Browser nicht die alte Datei behalten -->
+<script>const APP_V='2026-10-29c';</script>
+<script src="content.js?v=2026-10-29c"></script>
 <script>
 /* ---------- Icons ---------- */
 const I={
@@ -1497,7 +1499,7 @@ function mountOffice(el){
   const api={zones:LEARN.zones,themes:THEMES,esc,reduced,cardBody:learnBody,
     seen:id=>!!S.learn[id],markSeen:id=>{if(!S.learn[id]){S.learn[id]=1;save();}},
     onProgress:()=>{const p=$('lprog');if(p)p.outerHTML=learnProgHTML();}};
-  import('./office3d.js').then(m=>{if(!el.isConnected)return;el.querySelector('.o3d-load')?.remove();OFFICE=m.mount(el,api);})
+  import('./office3d.js?v='+APP_V).then(m=>{if(!el.isConnected)return;el.querySelector('.o3d-load')?.remove();OFFICE=m.mount(el,api);})
     .catch(()=>{L3FAIL=true;LMODE='list';if(VIEW==='learn'&&el.isConnected)home();});
 }
 function bindLearn(){
