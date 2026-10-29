@@ -60,6 +60,10 @@ if(LEARN&&PLANS){
   }));
 }
 
+/* 3D-Büro: jedes Tool sollte ein eigenes Objekt haben, sonst steht es nur auf einem Sockel */
+if(LEARN){const o3=fs.readFileSync(path.join(root,'office3d.js'),'utf8');
+  LEARN.zones.forEach(z=>z.tools.forEach(t=>{if(!o3.includes(`tool('${t.id}'`))warn('learn:'+t.id,'kein eigenes Objekt im 3D-Büro (office3d.js), wird auf einem Sockel gezeigt');}));}
+
 console.log(`Aufgaben: ${CATS.reduce((a,c)=>a+c.lessons.reduce((b,l)=>b+l.ex.length,0),0)}`);
 console.log(`Auswahl: richtige Antwort ist die längste in ${mcLongest}/${mc} (${Math.round(pLong*100)} %), die kürzeste in ${mcShortest}/${mc} (${Math.round(pShort*100)} %)`);
 console.log(`Stimmt/Stimmt nicht: ${tfFalse}/${tf} falsch (${Math.round(pFalse*100)} %)`);

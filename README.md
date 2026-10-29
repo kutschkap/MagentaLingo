@@ -5,11 +5,13 @@ Microsoft 365 lernen mit Tilly – spielerisch und für den Vertrieb.
 - 6 Kapitel von Teams bis Lizenzen, je 6 Lektionen und ein Abschlusstest
 - Level Silber, Gold und Magenta
 - Fehlertraining, Tagesziel, Serien und Erfolge
-- **Wissen: Das digitale Büro** – Rundgang durch ein Büro, in dem jeder Raum zeigt, welche Tools dort arbeiten (Sicherheit, Modern Work, KI), einfach erklärt und mit Lizenz-Spickzettel
+- **Wissen: Das digitale Büro** – begehbares 3D-Büro: Mit Tilly durch Empfang, Flur und acht Räume laufen. Jedes Tool steht als Möbel, Gerät oder Kollege im Raum (z. B. der Pförtner mit Checkliste für Conditional Access) und erklärt sich per Klick, einfach und mit Lizenzangabe. Dazu eine Listenansicht und ein Lizenz-Spickzettel
 - Spielstand bleibt im Browser; Sicherung als Datei unter „Erfolge“
 - Läuft auch offline und lässt sich als App installieren (über GitHub Pages)
 
-Einfach `index.html` öffnen oder über GitHub Pages aufrufen.
+Am besten über GitHub Pages aufrufen. Beim direkten Öffnen von `index.html` läuft alles bis auf den 3D-Rundgang, dort erscheint dann die Listenansicht.
+
+**Steuerung im 3D-Büro:** Auf den Boden tippen zum Laufen, leuchtende Punkte öffnen die Tool-Karten, unten direkt in einen Raum springen. Ziehen dreht die Ansicht, Mausrad oder +/− zoomt. Am Rechner gehen auch WASD bzw. Pfeiltasten und Q/E zum Drehen.
 
 ## Aufbau
 
@@ -18,6 +20,8 @@ Einfach `index.html` öffnen oder über GitHub Pages aufrufen.
 | `index.html` | App, Design und Logik |
 | `content.js` | Alle Fragen, Hinweise von Tilly und der Lernbereich mit Lizenzangaben |
 | `fonts/`, `icons/` | Schriften und Icons, lokal ausgeliefert (keine Anfragen an Google) |
+| `office3d.js` | Das 3D-Büro: Räume, Objekte je Tool, Steuerung |
+| `vendor/three/` | Three.js 0.170 (MIT-Lizenz), lokal ausgeliefert |
 | `sw.js`, `manifest.webmanifest` | Offline-Nutzung und Installation als App |
 | `tools/check-content.js` | Prüft die Inhalte |
 
