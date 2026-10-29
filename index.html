@@ -556,6 +556,7 @@ p{margin:0}
 .lvbar i{flex:1;height:10px;border-radius:99px;background:var(--line);overflow:hidden}
 .lvbar i b{display:block;height:100%;border-radius:99px;background:var(--hero)}
 @media(min-width:1040px){.teaser.inline{display:none}}
+@media(min-width:1040px){.shell.wide{grid-template-columns:230px minmax(0,1fr)}.shell.wide .aside{display:none}.shell.wide .center{max-width:1060px}}
 .fbtitle{display:flex;align-items:center;gap:10px}
 .fbic{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--surface);flex:none}
 .fbic svg{width:18px;height:18px}
@@ -722,6 +723,55 @@ canvas.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:non
 .lmatrix tbody th small{display:block;color:var(--muted);font-weight:600;font-size:12px}
 .mlink{padding:0;text-align:left;color:var(--ink);font:700 14px var(--body)}
 .chk{display:block;margin-top:6px;font:700 12px var(--body);opacity:.85}
+/* ---------- Wissen: 3D-Büro (office3d.js) ---------- */
+.o3d{position:relative;height:clamp(460px,72svh,680px);border-radius:24px;overflow:hidden;background:var(--surface-2);box-shadow:var(--shadow);outline:none;isolation:isolate}
+.o3d:focus-visible{box-shadow:var(--shadow),inset 0 0 0 3px var(--magenta)}
+.o3d canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+.o3d canvas:active{cursor:grabbing}
+.o3d.max{position:fixed;inset:0;height:auto;border-radius:0;z-index:80}
+body.o3d-max{overflow:hidden}
+.o3d-load{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted);font-weight:700}
+.o3d-load .mo{width:96px;height:auto}
+.otop{position:absolute;top:10px;left:10px;right:10px;display:flex;align-items:flex-start;gap:8px;pointer-events:none;z-index:3}
+.oroom{pointer-events:auto;flex:1;min-width:0;max-width:420px;display:flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:16px;background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 6px 18px -10px rgba(40,20,80,.35);border-left:5px solid var(--ch,var(--magenta))}
+.oroom b{font:800 17px/1.15 var(--display);color:var(--ink)}
+.oroom span{font-size:13px;line-height:1.35;color:var(--muted)}
+.oroom small{font:800 11px var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--ch,var(--magenta))}
+.obtns{pointer-events:auto;display:grid;grid-template-columns:repeat(2,38px);gap:6px}
+.obtn{width:38px;height:38px;border:0;border-radius:12px;background:color-mix(in srgb,var(--surface) 90%,transparent);color:var(--ink);font:800 18px var(--body);cursor:pointer;box-shadow:0 4px 12px -8px rgba(40,20,80,.4)}
+.obtn[data-o="max"]{grid-column:span 2;width:auto}
+.obtn:focus-visible,.ochip:focus-visible,.ohs:focus-visible{outline:3px solid var(--magenta);outline-offset:2px}
+.ohs-layer{position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+.ohs{position:absolute;left:0;top:0;pointer-events:auto;display:flex;align-items:center;gap:6px;padding:4px 10px 4px 4px;border:0;border-radius:99px;background:var(--surface);color:var(--ink);
+  font:800 12px var(--body);white-space:nowrap;cursor:pointer;box-shadow:0 6px 16px -6px rgba(40,20,80,.5);will-change:transform}
+.ohs-d{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--ch);color:var(--on-ch);font:800 14px var(--body);position:relative}
+.ohs:not(.seen) .ohs-d::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:3px solid var(--ch);opacity:.6;animation:ohsPulse 1.8s ease-out infinite}
+.ohs.seen .ohs-d{background:var(--ok);color:#fff}
+.ohs.on{box-shadow:0 0 0 3px var(--ch),0 6px 16px -6px rgba(40,20,80,.5)}
+.ohs-l{max-width:140px;overflow:hidden;text-overflow:ellipsis}
+@keyframes ohsPulse{from{transform:scale(.9);opacity:.7}to{transform:scale(1.6);opacity:0}}
+.ochips{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;gap:6px;padding:10px;overflow-x:auto;scrollbar-width:none;background:linear-gradient(transparent,color-mix(in srgb,var(--bg) 70%,transparent))}
+.ochips::-webkit-scrollbar{display:none}
+.ochip{flex:none;display:flex;align-items:center;gap:6px;padding:8px 12px;border:0;border-radius:99px;background:var(--surface);color:var(--ink);font:800 13px var(--body);cursor:pointer;box-shadow:0 4px 12px -8px rgba(40,20,80,.45)}
+.ochip small{font:700 11px var(--body);color:var(--muted)}
+.ochip i{font-style:normal;color:var(--ok)}
+.ochip.on{background:var(--ch);color:var(--on-ch)}
+.ochip.on small{color:inherit;opacity:.85}
+.ocard{position:absolute;z-index:4;right:10px;top:10px;bottom:62px;width:min(380px,calc(100% - 20px));overflow-y:auto;overscroll-behavior:contain;border-radius:20px;background:var(--surface);box-shadow:0 18px 40px -16px rgba(40,20,80,.55);display:flex;flex-direction:column}
+.ocard[hidden]{display:none}
+.ocard .ltb{padding:0 16px 8px}
+.ocard-h{position:sticky;top:0;z-index:1;padding:14px 48px 10px 16px;background:var(--surface);border-bottom:2px solid var(--line);margin-bottom:12px}
+.ocard-h h3{font-size:19px;outline:none}
+.ocard-k{display:block;font:800 11px var(--body);letter-spacing:.05em;text-transform:uppercase;color:var(--ch);margin-bottom:2px}
+.ocard-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border:0;border-radius:50%;background:var(--surface-2);color:var(--ink);font:700 22px/1 var(--body);cursor:pointer}
+.ocard-f{position:sticky;bottom:0;display:flex;justify-content:space-between;gap:8px;padding:10px 16px 14px;margin-top:auto;background:var(--surface);border-top:2px solid var(--line)}
+@media(max-width:1039px){.o3d{height:max(380px,calc(100svh - 312px - env(safe-area-inset-bottom,0px)))}.vhead.v3 p{display:none}.vhead.v3 .mo{width:56px}}
+@media(max-width:600px){.ocard{left:8px;right:8px;width:auto;top:auto;bottom:8px;max-height:72%}.otop{top:8px;left:8px;right:8px}.oroom span{display:none}}
+.ohint{position:absolute;z-index:5;left:50%;top:50%;transform:translate(-50%,-50%);width:min(340px,calc(100% - 32px));display:flex;flex-direction:column;gap:8px;align-items:flex-start;padding:18px;border-radius:20px;background:var(--surface);box-shadow:0 18px 40px -12px rgba(40,20,80,.55)}
+.ohint[hidden]{display:none}
+.ohint b{font:800 18px var(--display)}
+.ohint span{font-size:14px;color:var(--muted)}
+.l3fail{font-size:14px}
 </style>
 </head>
 <body>
@@ -989,7 +1039,7 @@ let onKey=null;
 document.addEventListener('keydown',e=>{if(onKey)onKey(e)});
 const $=id=>document.getElementById(id);
 let cheerTimer=null;
-function go(html){if(cheerTimer){clearInterval(cheerTimer);cheerTimer=null;}app.innerHTML=html;window.scrollTo(0,0);}
+function go(html){if(cheerTimer){clearInterval(cheerTimer);cheerTimer=null;}if(OFFICE){OFFICE.destroy();OFFICE=null;}app.innerHTML=html;window.scrollTo(0,0);}
 const blobs='<div class="blobs" aria-hidden="true"></div>';
 const bg=cid=>`<div class="bgart" aria-hidden="true">${ART[cid]}</div><div class="bgart two" aria-hidden="true">${ART[cid]}</div>`;
 const nowTime=()=>new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
@@ -1160,9 +1210,9 @@ function asideHTML(){
     <button class="teaser" data-nav="review"><span class="ti">${I.redo}</span><div><b>Fehlertraining</b><span>${n?`${n} ${n===1?'Aufgabe wartet':'Aufgaben warten'}`:'Noch leer'}</span></div>${n?'<span class="go">Üben →</span>':''}</button>
     <div class="card"><div class="statrow"><span class="flamebox" style="background:var(--sun-soft);color:var(--sun-dk)">${I.bolt}</span><div><span class="big">${S.xp}</span><small>XP gesamt · ${testsPassed()} von 6 Trophäen</small></div></div></div>`;
 }
-function shell(content){
+function shell(content,cls=''){
   const nav=navItems();
-  go(`${blobs}<div class="shell">
+  go(`${blobs}<div class="shell${cls?' '+cls:''}">
     <aside class="side"><button class="brand brandbtn" data-home title="Zur Startseite">${LOGO}MagentaLingo</button>
       ${nav.map(x=>`<button class="navi${VIEW===x.v?' on':''}" data-nav="${x.v}">${x.i}${x.l}${x.b?`<span class="badge">${x.b}</span>`:''}</button>`).join('')}
       <div class="foot-mo">${mascot(dailyXP()>=GOAL?'cheer':'happy')}<span>${dailyXP()>=GOAL?'Tagesziel erreicht. Ich bin beeindruckt!':'Ein paar Minuten am Tag reichen. Ich bin dabei.'}</span></div>
@@ -1181,7 +1231,7 @@ function shell(content){
 function home(focus){
   onKey=null;
   if(VIEW==='review'){shell(viewReview());if($('rv'))$('rv').onclick=startReview;return;}
-  if(VIEW==='learn'){shell(viewLearn());bindLearn();return;}
+  if(VIEW==='learn'){shell(viewLearn(),LMODE==='3d'?'wide':'');bindLearn();return;}
   if(VIEW==='awards'){shell(viewAwards());bindQA();bindBackup();bindName();return;}
   if(VIEW==='catalog'&&QA.on){shell(viewCatalog());bindCatalog();bindQA();return;}
   if(VIEW==='catalog')VIEW='path';
@@ -1348,18 +1398,25 @@ function toolHTML(t){
   return `<article class="ltool ch-${th.ch}${open?' open':''}${fitsF(t.th)?'':' dim'}">
     <button class="lth" data-lt="${t.id}" aria-expanded="${open}"><span class="ldot${S.learn[t.id]?' seen':''}">${S.learn[t.id]?plain(I.check):''}</span>
       <span class="ltn"><b>${esc(t.name)}</b><small>${esc(th.n)}</small></span><span class="lchev" aria-hidden="true"></span></button>
-    ${open?`<div class="ltb">
-      <div class="lblock"><span class="lk">Einfach erklärt</span><p>${esc(t.what)}</p></div>
+    ${open?`<div class="ltb">${learnBody(t)}</div>`:''}
+  </article>`;
+}
+/* Inhalt einer Tool-Karte, genutzt in der Liste und im 3D-Büro */
+function learnBody(t){
+  return `<div class="lblock"><span class="lk">Einfach erklärt</span><p>${esc(t.what)}</p></div>
       ${t.flow?`<div class="lflow" aria-label="Beispielregel">${t.flow.map(([a,b],i)=>`<div class="lstep${i===t.flow.length-1?' then':''}"><span>${esc(a)}</span>${esc(b)}</div>`).join('<i aria-hidden="true">→</i>')}</div>`:''}
       <div class="lblock office"><span class="lk">Im Büro ist das wie …</span><p>${esc(t.office)}</p></div>
       <div class="lblock"><span class="lk">Darum will der Kunde das</span><p>${esc(t.why)}</p></div>
       <div class="lblock"><span class="lk">In welcher Lizenz?</span>${licRow(t)}</div>
-      ${t.note?`<div class="qtip"><b>Tilly sagt</b>${esc(t.note)}</div>`:''}
-    </div>`:''}
-  </article>`;
+      ${t.note?`<div class="qtip"><b>Tilly sagt</b>${esc(t.note)}</div>`:''}`;
 }
+/* 3D-Rundgang (office3d.js, lädt Three.js erst hier) oder Liste als Alternative */
+const has3D=(()=>{try{const c=document.createElement('canvas');return !!(window.WebGLRenderingContext&&(c.getContext('webgl2')||c.getContext('webgl')));}catch(e){return false;}})();
+let LMODE=has3D?'3d':'list',L3FAIL=false,OFFICE=null;
+function learnProgHTML(){const n=seenN(),all=learnTools().length;return `<span class="lprog" id="lprog"><i><b style="width:${n/all*100}%"></b></i>${n}/${all} erkundet</span>`;}
 function viewLearn(){
   const z=LEARN.zones.find(x=>x.id===LZ)||LEARN.zones[0],all=learnTools(),n=seenN();
+  const modes=has3D&&!L3FAIL?`<div class="qfilter" role="tablist" aria-label="Ansicht">${[['3d','3D-Rundgang'],['list','Liste']].map(([v,l])=>`<button role="tab" aria-selected="${LMODE===v}" class="${LMODE===v?'on':''}" data-lm="${v}">${l}</button>`).join('')}</div>`:'';
   const plan=`<div class="floor" role="group" aria-label="Grundriss des Büros">
     <span class="entry" aria-hidden="true">Eingang ↓</span>
     ${LEARN.zones.map(r=>{const s=r.tools.filter(t=>S.learn[t.id]).length,dim=LF!=='all'&&!r.th.includes(LF);
@@ -1368,15 +1425,17 @@ function viewLearn(){
         <span class="rico">${I[r.ic]}</span><b>${esc(r.name)}</b>
         <small>${s}/${r.tools.length} erkundet</small></button>`;}).join('')}
   </div>`;
-  const rows=all.filter(t=>fitsF(t.th));
-  return `<div class="vhead">${mascot('happy','float')}<div><h1>Das digitale Büro</h1><p>Komm mit auf einen Rundgang. Jeder Raum zeigt, welche Microsoft-Tools dort arbeiten, was sie tun und in welcher Lizenz sie stecken.</p></div></div>
-    <div class="ltools-top"><div class="qfilter" role="tablist" aria-label="Thema">${[['all','Alle'],...Object.entries(THEMES).map(([k,v])=>[k,v.n])].map(([v,l])=>`<button role="tab" aria-selected="${LF===v}" class="${LF===v?'on':''}" data-lf="${v}">${l}</button>`).join('')}</div>
-      <span class="lprog"><i><b style="width:${n/all.length*100}%"></b></i>${n}/${all.length} erkundet</span></div>
-    ${plan}
+  const is3=LMODE==='3d';
+  const rows=all.filter(t=>is3||fitsF(t.th));
+  return `<div class="vhead${is3?' v3':''}">${mascot('happy','float')}<div><h1>Das digitale Büro</h1><p>${is3?'Lauf mit Tilly durchs Büro. In jedem Raum arbeiten Microsoft-Tools als Möbel, Geräte oder Kollegen. Tippe auf die leuchtenden Punkte und erfahre, was sie tun und in welcher Lizenz sie stecken.':'Komm mit auf einen Rundgang. Jeder Raum zeigt, welche Microsoft-Tools dort arbeiten, was sie tun und in welcher Lizenz sie stecken.'}</p></div></div>
+    <div class="ltools-top">${modes}${is3?'':`<div class="qfilter" role="tablist" aria-label="Thema">${[['all','Alle'],...Object.entries(THEMES).map(([k,v])=>[k,v.n])].map(([v,l])=>`<button role="tab" aria-selected="${LF===v}" class="${LF===v?'on':''}" data-lf="${v}">${l}</button>`).join('')}</div>`}
+      ${learnProgHTML()}</div>
+    ${L3FAIL&&!is3?`<p class="muted l3fail">Der 3D-Rundgang lässt sich hier nicht laden, zum Beispiel wenn die Datei direkt geöffnet wird. Über GitHub Pages klappt es. Hier ist die Liste.</p>`:''}
+    ${is3?`<div class="o3d" id="o3d" aria-label="3D-Büro"><div class="o3d-load">${mascot('wave','float')}<span>Das Büro wird aufgebaut …</span></div></div>`:`${plan}
     <section class="lroom ch-${zoneCh(z)}" id="lroom" aria-live="polite">
       <div class="lrhead"><span class="uico">${I[z.ic]}</span><div><h2>${esc(z.name)}</h2><p>${esc(z.intro)}</p></div></div>
       ${z.tools.map(toolHTML).join('')}
-    </section>
+    </section>`}
     <section class="card lmatrix"><h2>Lizenz-Spickzettel</h2><p class="muted">Welches Tool steckt in welchem Plan${LF==='all'?'':` · nur ${esc(THEMES[LF].n)}`}? Stand ${esc(LEARN.checked)}. Vor jedem Angebot die aktuellen Microsoft-Bedingungen prüfen.</p>
       <div class="mscroll"><table><thead><tr><th scope="col">Tool</th>${PLANS.map(p=>`<th scope="col" title="${esc(p.n)}">${p.s}</th>`).join('')}</tr></thead>
       <tbody>${rows.map(t=>`<tr><th scope="row"><button class="linkbtn mlink" data-goto="${t.id}">${esc(t.name)}</button>${Object.keys(t.lic).length?'':`<small>${esc(t.add)}</small>`}</th>${PLANS.map(p=>`<td>${licCell(t.lic[p.id])}</td>`).join('')}</tr>`).join('')}</tbody></table></div></section>`;
@@ -1385,7 +1444,20 @@ function openTool(id){
   LT=LT===id?null:id;
   if(LT&&!S.learn[LT]){S.learn[LT]=1;save();}
 }
+function mountOffice(el){
+  const api={zones:LEARN.zones,themes:THEMES,esc,reduced,cardBody:learnBody,
+    seen:id=>!!S.learn[id],markSeen:id=>{if(!S.learn[id]){S.learn[id]=1;save();}},
+    onProgress:()=>{const p=$('lprog');if(p)p.outerHTML=learnProgHTML();}};
+  import('./office3d.js').then(m=>{if(!el.isConnected)return;el.querySelector('.o3d-load')?.remove();OFFICE=m.mount(el,api);})
+    .catch(()=>{L3FAIL=true;LMODE='list';if(VIEW==='learn'&&el.isConnected)home();});
+}
 function bindLearn(){
+  app.querySelectorAll('[data-lm]').forEach(b=>b.onclick=()=>{LMODE=b.dataset.lm;const y=scrollY;home();scrollTo(0,y);});
+  if(LMODE==='3d'){
+    const el=$('o3d');if(el)mountOffice(el);
+    app.querySelectorAll('[data-goto]').forEach(b=>b.onclick=()=>{const o=$('o3d');if(o)o.scrollIntoView({block:'center',behavior:reduced()?'auto':'smooth'});if(OFFICE)OFFICE.goTool(b.dataset.goto);});
+    return;
+  }
   if(LT&&!S.learn[LT]){S.learn[LT]=1;save();}
   const jump=()=>{home();const el=$('lroom');if(el)el.scrollIntoView({block:'start',behavior:reduced()?'auto':'smooth'});};
   app.querySelectorAll('[data-lz]').forEach(b=>b.onclick=()=>{LZ=b.dataset.lz;LT=null;jump();});
