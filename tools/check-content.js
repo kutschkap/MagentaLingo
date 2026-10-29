@@ -53,9 +53,15 @@ if(LEARN&&PLANS){
   LEARN.zones.forEach(z=>z.tools.forEach(t=>{
     const k='learn:'+t.id;
     if(seen.has(t.id))err(k,'id doppelt');seen.add(t.id);
-    ['name','what','office','why'].forEach(f=>{if(!t[f])err(k,`${f} fehlt`);});
-    Object.keys(t.lic||{}).forEach(p=>{if(!ids.has(p))err(k,`unbekannter Plan ${p}`);});
-    if(!Object.keys(t.lic||{}).length&&!t.add)err(k,'weder Plan noch Add-on angegeben');
+    if(z.kind==='sales'){
+      ['name','what','office'].forEach(f=>{if(!t[f])err(k,`${f} fehlt`);});
+      if(!t.ms&&!t.quiz)err(k,'Bezug zu Microsoft (ms) fehlt');
+      (t.quiz||[]).forEach((q,i)=>{if(!'BANT'.includes(q[1])||q[1].length!==1)err(k,`Quizfrage ${i+1}: Antwort muss B, A, N oder T sein`);if(!q[2])warn(k,`Quizfrage ${i+1} ohne Erklärung`);});
+    }else{
+      ['name','what','office','why'].forEach(f=>{if(!t[f])err(k,`${f} fehlt`);});
+      Object.keys(t.lic||{}).forEach(p=>{if(!ids.has(p))err(k,`unbekannter Plan ${p}`);});
+      if(!Object.keys(t.lic||{}).length&&!t.add)err(k,'weder Plan noch Add-on angegeben');
+    }
     if(!THEMES[t.th])err(k,`unbekanntes Thema ${t.th}`);
   }));
 }
