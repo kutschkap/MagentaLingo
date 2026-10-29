@@ -5,7 +5,7 @@ Microsoft 365 lernen mit Tilly – spielerisch und für den Vertrieb.
 - 6 Kapitel von Teams bis Lizenzen, je 6 Lektionen und ein Abschlusstest
 - Level Silber, Gold und Magenta
 - Fehlertraining, Tagesziel, Serien und Erfolge
-- **Wissen: Das digitale Büro** – begehbares 3D-Büro: Mit Tilly durch Empfang, Flur und acht Räume laufen. Jedes Tool steht als Möbel, Gerät oder Kollege im Raum (z. B. der Pförtner mit Checkliste für Conditional Access) und erklärt sich per Klick, einfach und mit Lizenzangabe. Dazu eine Listenansicht und ein Lizenz-Spickzettel
+- **Wissen: Das digitale Büro** – begehbares 3D-Büro: Mit Tilly durch Empfang, Flur und acht Räume laufen. Jedes Tool steht als Möbel, Gerät oder Kollege im Raum (z. B. der Pförtner mit Checkliste für Conditional Access) und erklärt sich per Klick, einfach und mit Lizenzangabe. Am Ende des Flurs liegt der **Sales Room**: Dort lernt man, Microsoft-Deals mit BANT (Budget, Authority, Need, Timeline) zu qualifizieren, mit Gesprächsfragen, Warnzeichen, Beispiel-Deal und BANT-Quiz. Dazu eine Listenansicht und ein Lizenz-Spickzettel
 - Spielstand bleibt im Browser; Sicherung als Datei unter „Erfolge“
 - Läuft auch offline und lässt sich als App installieren (über GitHub Pages)
 

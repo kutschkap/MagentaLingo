@@ -441,7 +441,9 @@ CATS.forEach(c=>c.lessons.forEach((l,li)=>l.ex.forEach((e,ei)=>{if(!e.x)e.x=TIPS
 /* ---------- Lernbereich „Das digitale Büro“ ----------
    Jeder Raum steht für ein Thema, jedes Tool wird in einfacher Sprache erklärt.
    lic: je Plan true (enthalten) oder ein kurzer Text (enthalten, mit Variante). Fehlt ein Plan, ist das Tool dort nicht enthalten.
-   add: wie man es bekommt, wenn es nicht im Plan steckt. Lizenzstand siehe LEARN.checked, vor Angeboten immer gegenprüfen. */
+   add: wie man es bekommt, wenn es nicht im Plan steckt. Lizenzstand siehe LEARN.checked, vor Angeboten immer gegenprüfen.
+   Der Sales Room (kind:'sales') erklärt statt Tools die BANT-Kriterien: ms = Bezug zu Microsoft, ask = Fragen fürs Gespräch,
+   good/bad = gute Zeichen und Warnzeichen, map = Kundenproblem → passende Lösung, quiz = [Aussage, B|A|N|T, Erklärung]. */
 const PLANS=[
  {id:'bb',n:'Business Basic',s:'Basic'},
  {id:'bs',n:'Business Standard',s:'Standard'},
@@ -449,7 +451,7 @@ const PLANS=[
  {id:'e3',n:'Microsoft 365 E3',s:'E3'},
  {id:'e5',n:'Microsoft 365 E5',s:'E5'}
 ];
-const THEMES={sec:{n:'Sicherheit',ch:'sec'},mw:{n:'Modern Work',ch:'teams'},ai:{n:'KI',ch:'copilot'}};
+const THEMES={sec:{n:'Sicherheit',ch:'sec'},mw:{n:'Modern Work',ch:'teams'},ai:{n:'KI',ch:'copilot'},sales:{n:'Vertrieb',ch:'lic'}};
 const LEARN={checked:'Oktober 2026',zones:[
 {id:'door',name:'Eingang & Empfang',th:['sec'],ic:'door',area:'door',intro:'Wer darf rein? Hier geht es um Konten, Anmeldung und Zutrittsregeln.',tools:[
  {id:'entra',th:'sec',name:'Microsoft Entra ID',what:'Das Firmenkonto für alles. Jede Person meldet sich einmal an und kommt damit in Outlook, Teams und alle anderen Apps.',office:'Wie der Mitarbeiterausweis: einmal ausgestellt, öffnet er alle Türen, für die er freigeschaltet ist.',why:'Ein Konto statt vieler Kennwörter. Weniger Aufwand für die IT, weniger Risiko für die Firma.',lic:{bb:'Free',bs:'Free',bp:'P1',e3:'P1',e5:'P2'},note:'Die Basis steckt in jedem Plan. P1 bringt bedingten Zugriff, P2 zusätzlich Risikoerkennung und Admin-Rechte auf Zeit.'},
@@ -498,5 +500,47 @@ const LEARN={checked:'Oktober 2026',zones:[
  {id:'copilot',th:'ai',name:'Microsoft 365 Copilot',what:'KI direkt in Word, Excel, PowerPoint, Outlook und Teams. Sie kennt deine Mails, Chats und Dateien, aber nur das, was du ohnehin sehen darfst.',office:'Die Assistenz, die alle Akten kennt, die du sehen darfst, und dir Entwürfe, Zusammenfassungen und Antworten vorbereitet.',why:'Spart Zeit bei Routine wie Meeting-Protokollen, Mailverläufen und ersten Entwürfen.',lic:{},add:'Add-on Microsoft 365 Copilot, für bis zu 300 Nutzer auch Copilot Business. In Microsoft 365 E7 enthalten.',note:'Vor dem Start Freigaben aufräumen: Copilot findet alles, worauf ein Nutzer Zugriff hat.'},
  {id:'agents',th:'ai',name:'Agents & Copilot Studio',what:'Spezialisierte KI-Helfer für eine Aufgabe, etwa für HR-Fragen oder Angebotsentwürfe. Einfache Agents klickt man im Agent Builder zusammen, anspruchsvolle baut man in Copilot Studio.',office:'Fachkräfte mit genau einer Aufgabe, zum Beispiel die Kollegin aus der Personalabteilung, die alle Urlaubsfragen beantwortet.',why:'Wissen, das sonst in einzelnen Köpfen steckt, ist für alle rund um die Uhr abrufbar.',lic:{},add:'Mit Copilot-Lizenz nutzbar, sonst nach Nutzung (Copilot Credits)'},
  {id:'researcher',th:'ai',name:'Researcher & Analyst',what:'Zwei mitgelieferte Agents: Researcher recherchiert mehrstufig in Web und Firmendaten und schreibt einen Bericht. Analyst wertet Daten aus wie ein Datenanalyst.',office:'Die Rechercheabteilung und das Controlling, die auf Zuruf einen fertigen Bericht liefern.',why:'Kundentermine und Entscheidungen in Minuten statt Stunden vorbereiten.',lic:{},add:'Mit Microsoft 365 Copilot enthalten'}
+]},
+{id:'sales',kind:'sales',name:'Sales Room',th:['sales'],ic:'target',area:'sales',intro:'Hier lernst du, mit BANT zu prüfen, ob aus einem Gespräch ein echtes Microsoft-Projekt wird.',tools:[
+ {id:'bant',th:'sales',name:'BANT im Überblick',what:'BANT sind vier Fragen, mit denen du früh prüfst, ob ein Kunde wirklich kaufen kann und will: Budget, Authority (Entscheider), Need (Bedarf) und Timeline (Zeitplan).',office:'Die Checkliste am Whiteboard, die das Team durchgeht, bevor ein Angebot rausgeht. Fehlt ein Haken, wird erst nachgefragt statt gerechnet.',
+  flow:[['B','Budget: Ist Geld da?'],['A','Authority: Wer entscheidet?'],['N','Need: Welches Problem?'],['T','Timeline: Bis wann?']],
+  ms:'Bei Microsoft-Themen hilft die Reihenfolge N, T, A, B: Erst den Bedarf verstehen, dann den Anlass mit Termin finden, dann alle Beteiligten kennen. Danach ist das Budget-Gespräch viel leichter, weil du den Wert schon kennst.',
+  good:['Alle vier Punkte sind geklärt und notiert','Der Kunde nennt selbst einen Termin und ein Problem'],bad:['Nur „Schicken Sie mal ein Angebot“','Niemand weiß, wer entscheidet'],
+  note:'BANT ist kein Verhör. Stell die Fragen im Gespräch nebenbei und notiere die Antworten im CRM. Fehlt ein Kriterium, ist das kein Aus, sondern deine nächste Aufgabe.'},
+ {id:'budget',th:'sales',name:'B wie Budget',what:'Gibt es Geld für das Projekt? Und was gibt der Kunde heute schon aus?',office:'Das Sparschwein auf dem Sideboard: Oft ist mehr drin, als der Kunde denkt, es liegt nur in vielen kleinen Töpfen.',
+  ms:'Budget steckt oft in Altverträgen: Virenschutz, Geräteverwaltung, Videokonferenz-Tool, Telefonanlage oder Fileserver-Wartung. Business Premium oder E5 löst viele davon ab, also Kosten gegenrechnen. Im CSP ist die Monatslaufzeit rund 20 % teurer als die Jahreslaufzeit, ein Jahresabo mit Monatszahlung verteilt die Belastung.',
+  ask:['Was zahlt ihr heute pro Nutzer für Mail, Virenschutz und Geräteverwaltung?','Ist für Sicherheit oder KI in diesem Jahr schon Geld eingeplant?','Lieber monatlich flexibel oder günstiger mit Jahresvertrag?'],
+  good:['Budget für Sicherheit ist freigegeben','Altverträge laufen aus und können ersetzt werden'],bad:['„Es darf nichts kosten“','Preis ist das einzige Thema'],
+  note:'Sprich über Wert vor Preis: Was kostet ein Tag Ausfall nach einem Ransomware-Angriff, was kostet eine Stunde Suche nach Dateien pro Woche?'},
+ {id:'authority',th:'sales',name:'A wie Authority',what:'Wer entscheidet, wer zahlt und wer kann das Projekt noch stoppen?',office:'Das Siegertreppchen der Entscheider: oben die Geschäftsführung, daneben IT-Leitung und Einkauf. Und am Rand steht oft jemand mit Vetorecht.',
+  ms:'Microsoft-Projekte entscheidet selten die IT allein. Typisch sind Geschäftsführung (Budget), IT-Leitung (Technik), Datenschutz, Einkauf und bei vielen Themen der Betriebsrat: bei Copilot, Intune auf Diensthandys oder Teams-Telefonie redet er fast immer mit. Frag auch, ob ein IT-Partner den Tenant betreut, er ist ein wichtiger Einflussnehmer.',
+  ask:['Wer unterschreibt am Ende?','Wen müssen wir noch einbinden, etwa Datenschutz oder Betriebsrat?','Wer betreut euren Microsoft-Tenant heute, ihr selbst oder ein Partner?'],
+  good:['Du sprichst direkt mit der Person, die entscheidet','Der Kunde lädt selbst weitere Beteiligte ein'],bad:['Dein Kontakt „muss das erst mal intern klären“','Betriebsrat oder Datenschutz erfahren erst am Ende davon'],
+  note:'Bei Copilot früh den Betriebsrat und den Datenschutz an den Tisch holen. Wer erst nach dem Angebot fragt, verliert oft Monate.'},
+ {id:'need',th:'sales',name:'N wie Need',what:'Welches Problem soll gelöst werden, und was passiert, wenn nichts passiert?',office:'Die Pinnwand mit roten Zetteln für die Probleme und grünen für die Lösungen. Erst wenn jeder rote Zettel einen grünen Partner hat, passt das Angebot.',
+  ms:'Ordne jedes Kundenproblem einer konkreten Microsoft-Lösung zu. So wird aus „mehr Sicherheit“ ein greifbarer Nutzen.',
+  map:[['Phishing oder Ransomware-Angst','Defender for Office 365, Defender for Business, Business Premium'],['Private Handys mit Firmenmails','Intune mit App-Schutzrichtlinien'],['Laptops einrichten dauert ewig','Windows Autopilot mit Intune'],['Fileserver voll, kein Zugriff von unterwegs','SharePoint und OneDrive'],['Telefonanlage läuft aus','Teams Phone'],['Zu viel Zeit für Mails und Protokolle','Microsoft 365 Copilot'],['NIS2-Pflichten','Microsoft 365 E5 Security bzw. Business Premium']],
+  ask:['Was kostet euch im Alltag am meisten Zeit oder Nerven?','Gab es schon einen Sicherheitsvorfall oder knapp daneben?','Was passiert, wenn ihr in einem Jahr noch genauso arbeitet?'],
+  good:['Der Kunde beschreibt den Schmerz mit eigenen Worten und Zahlen','Es gab einen konkreten Anlass'],bad:['„Eigentlich läuft alles“','Nur Interesse an einer Funktion, ohne Problem dahinter'],
+  note:'Frag nach der Folge, nicht nach dem Produkt. Wer weiß, was ein Problem kostet, findet auch das Budget.'},
+ {id:'timeline',th:'sales',name:'T wie Timeline',what:'Bis wann muss die Lösung laufen, und welcher Anlass gibt den Termin vor?',office:'Die große Uhr und der Wandkalender mit einem roten Kreis: Ohne Termin bleibt jedes Projekt im Wartezimmer.',
+  ms:'Gute Anlässe im Microsoft-Umfeld: Vertragsende oder Verlängerung im CSP (danach bleibt nur ein Storno-Fenster von 168 Stunden), Support-Ende von Windows 10 und Exchange Server 2016/2019 (beides seit Oktober 2025), auslaufende Telefonanlagen- oder Leasingverträge, NIS2-Pflichten, Audits, ein Umzug oder die Budgetplanung fürs nächste Jahr.',
+  ask:['Wann läuft euer aktueller Vertrag aus?','Gibt es einen festen Termin, etwa einen Umzug, ein Audit oder die Budgetrunde?','Bis wann soll ein Pilot stehen, damit ihr entscheiden könnt?'],
+  good:['Ein festes Datum mit Folgen, z. B. Vertragsende','Der Kunde plant schon rückwärts vom Termin'],bad:['„Irgendwann nächstes Jahr“','Kein Anlass, nur Neugier'],
+  note:'Plan rückwärts: Rollout, Pilot, Entscheidung, Angebot. So weißt du, wann das Angebot spätestens beim Kunden sein muss.'},
+ {id:'deal',th:'sales',name:'Beispiel: BANT an einem Fall',what:'Ein Mittelständler mit 120 Nutzern, Business Standard und alter Telefonanlage. So sieht BANT im echten Gespräch aus.',office:'Der Stehtisch, an dem Vertrieb und Kunde den Deal durchgehen, mit Vertrag und Stift schon auf dem Tisch.',
+  flow:[['Need','Phishing-Vorfall, Firmenmails auf Privathandys'],['Timeline','Telefonanlage läuft in 6 Monaten aus'],['Authority','Geschäftsführer, IT-Leiter, Betriebsrat für Intune'],['Budget','heute rund 14 € pro Nutzer für Einzeltools']],
+  ms:'Die Empfehlung: Upgrade auf Business Premium (Defender, Intune, bedingter Zugriff) plus Teams Phone mit Operator Connect. Die abgelösten Einzeltools gegenrechnen, mit einer Pilotgruppe starten und vor dem Ende der Telefonanlage umstellen.',
+  note:'Ein gut qualifizierter Deal lässt sich in vier Sätzen erzählen. Klappt das nicht, fehlt noch ein Kriterium.'},
+ {id:'quiz',th:'sales',name:'BANT-Quiz',what:'Was hat der Kunde gerade verraten? Ordne jede Aussage dem passenden Buchstaben zu.',office:'Das Quiz-Terminal in der Ecke: Hier trainiert das Team, Kundensätze sofort richtig einzuordnen.',
+  quiz:[['„Wir zahlen heute extra für Virenschutz, Geräteverwaltung und Videokonferenzen.“','B','Altverträge sind verstecktes Budget, das Business Premium ablösen kann.'],
+   ['„Ohne den Betriebsrat führen wir Copilot nicht ein.“','A','Der Betriebsrat redet mit und gehört damit zu den Entscheidern.'],
+   ['„Letzten Monat hat ein Kollege auf eine Phishing-Mail geklickt.“','N','Ein konkretes Problem. Hier helfen Defender for Office 365 und Schulungen.'],
+   ['„Der Vertrag unserer Telefonanlage läuft im März aus.“','T','Ein fester Termin, der das Projekt antreibt. Teams Phone rechtzeitig planen.'],
+   ['„Alles über 10.000 Euro gibt die Geschäftsführung frei.“','A','Du weißt jetzt, wer ab welcher Summe entscheidet.'],
+   ['„Unser Fileserver ist voll und unterwegs kommt keiner an die Dateien.“','N','Bedarf für SharePoint und OneDrive.'],
+   ['„Im Juni haben wir das NIS2-Audit.“','T','Ein Termin mit Folgen. Bis dahin müssen Schutzmaßnahmen stehen.'],
+   ['„Pro Nutzer und Monat haben wir rund 20 Euro eingeplant.“','B','Ein konkreter Budgetrahmen. Business Premium passt da oft hinein.']]}
 ]}
+
 ]};
