@@ -753,12 +753,16 @@ canvas.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:non
 .shovwrap{position:absolute;left:0;bottom:2px;width:104px;will-change:transform;transform:translateX(-200px)}
 .shov{display:block;width:100%;height:auto;overflow:visible;pointer-events:auto;cursor:pointer}
 .shovwrap.left .shov{transform:scaleX(-1)}
-.shov .sh-leg{transform-box:fill-box;transform-origin:50% 0}
-.shov.walk .sh-leg.f{animation:shLeg .9s ease-in-out infinite}
-.shov.walk .sh-leg.b{animation:shLeg .9s ease-in-out infinite reverse}
-@keyframes shLeg{0%,100%{transform:rotate(16deg)}50%{transform:rotate(-16deg)}}
-.shov.walk .sh-body{animation:shBob .45s ease-in-out infinite alternate}
-@keyframes shBob{from{transform:translateY(0)}to{transform:translateY(-2px)}}
+.shov .sh-leg,.shov .sh-shin{transform-box:view-box}
+.shov .sh-leg.b{transform-origin:57px 145px}.shov .sh-leg.b .sh-shin{transform-origin:57px 166px}
+.shov .sh-leg.f{transform-origin:69px 145px}.shov .sh-leg.f .sh-shin{transform-origin:69px 166px}
+.shov.walk .sh-leg{animation:shThigh 1s linear infinite}
+.shov.walk .sh-shin{animation:shShin 1s linear infinite}
+.shov.walk .sh-leg.b,.shov.walk .sh-leg.b .sh-shin{animation-delay:-.5s}
+@keyframes shThigh{0%{transform:rotate(-24deg)}25%{transform:rotate(-4deg)}50%{transform:rotate(18deg)}65%{transform:rotate(12deg)}82%{transform:rotate(-14deg)}100%{transform:rotate(-24deg)}}
+@keyframes shShin{0%{transform:rotate(2deg)}25%{transform:rotate(4deg)}45%{transform:rotate(10deg)}62%{transform:rotate(46deg)}82%{transform:rotate(22deg)}94%{transform:rotate(4deg)}100%{transform:rotate(2deg)}}
+.shov.walk .sh-body{animation:shBob .5s ease-in-out infinite}
+@keyframes shBob{0%,100%{transform:translateY(1px)}50%{transform:translateY(-2.5px)}}
 .shov .sh-arms{transform-box:view-box;transform-origin:64px 110px}
 .shov.walk .sh-arms{animation:shScoop 1.8s ease-in-out infinite}
 @keyframes shScoop{0%{transform:rotate(0)}55%{transform:translateX(4px) rotate(2deg)}68%{transform:rotate(-34deg)}82%{transform:rotate(-8deg)}100%{transform:rotate(0)}}
@@ -1222,8 +1226,8 @@ function shovelerSVG(){
     <linearGradient id="shSh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D3E6F8"/><stop offset="1" stop-color="#A9CBEC"/></linearGradient>
   </defs>
   <g class="sh-body">
-    <g class="sh-leg b"><path d="M51 146h12l-1 38h-10z" fill="#252E46"/><ellipse cx="61" cy="188" rx="11" ry="6" fill="${boot}"/></g>
-    <g class="sh-leg f"><path d="M63 146h12l-1 38h-10z" fill="${pants}"/><ellipse cx="73" cy="188" rx="11" ry="6" fill="${boot}"/></g>
+    <g class="sh-leg b"><path d="M51 144h12l-.5 24h-11z" fill="#252E46"/><g class="sh-shin"><path d="M51.5 165h11l-.6 22h-9.8z" fill="#252E46"/><path d="M51 185h12q6 1 7 5q0 3-3 3h-16q-3 0-3-3z" fill="${boot}"/></g></g>
+    <g class="sh-leg f"><path d="M63 144h12l-.5 24h-11z" fill="${pants}"/><g class="sh-shin"><path d="M63.5 165h11l-.6 22h-9.8z" fill="${pants}"/><path d="M63 185h12q6 1 7 5q0 3-3 3h-16q-3 0-3-3z" fill="${boot}"/></g></g>
     <path class="sh-scarf" d="M54 102q-10 4-18 14q-3 4 1 6q8-7 19-12z" fill="#C0006A"/>
     <path d="M36 152c0-32 10-52 28-52s28 20 28 52z" fill="url(#shSh)"/>
     <path d="M64 108v42" stroke="${shirtDk}" stroke-width="1.6"/>${[116,128,140].map(y=>`<circle cx="66.5" cy="${y}" r="1.6" fill="#fff" stroke="${shirtDk}" stroke-width=".6"/>`).join('')}
@@ -1244,7 +1248,7 @@ function shovelerSVG(){
       <path d="M38 55l-3 1.6M88 55l3 1.6" stroke="${skinDk}" stroke-width="1.6" stroke-linecap="round"/>
       <path d="M61.5 59q3 6.5-1.5 8q3 1.3 5.5-.5" stroke="${skinDk}" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
       <ellipse cx="41" cy="68" rx="5.5" ry="3.4" fill="#F08C7E" opacity=".4"/><ellipse cx="85" cy="68" rx="5.5" ry="3.4" fill="#F08C7E" opacity=".4"/>
-      <path d="M47 70q16 19 32 0z" fill="${lip}"/><path d="M50 71.5h26" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M56 80q7 3 14 0" stroke="#E2707E" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+      <path d="M53 70.5q10 9.5 20 0z" fill="${lip}"/><path d="M55.5 71.6h15" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/><path d="M51 69.5l2.2 1.2M75 69.5l-2.2 1.2" stroke="${skinDk}" stroke-width="1.6" stroke-linecap="round"/>
     </g>
     <g class="sh-arms">
       <path d="M56 110q12 10 27 18" stroke="url(#shSh)" stroke-width="13" fill="none" stroke-linecap="round"/>
@@ -1295,7 +1299,7 @@ function startWinter(){
     if(state==='wait'){wait-=dt;if(wait<=0)walkStart();}
     else{
       const ph=((now-t0)/1800)%1,fw=FW(),blade=dir>0?x+fw*.95:x+fw*.05;
-      x+=dir*(ph<.6?44:10)*dt;fig.style.transform=`translateX(${x}px)`;
+      x+=dir*(ph>.62&&ph<.8?26:40)*dt;fig.style.transform=`translateX(${x}px)`;
       /* Schaufel räumt: hinter dem Blatt bleibt ein geräumter Weg */
       let moved=0;const ci=Math.round(blade/COL);for(let k=-2;k<=2;k++){const i=ci+k;if(i>=0&&i<cols.length&&cols[i]>3){moved+=cols[i]-2.5;cols[i]=2.5;}}
       for(let i=0;i<cols.length;i++){const cx=i*COL;if((dir>0&&cx<blade&&cx>blade-fw*1.2)||(dir<0&&cx>blade&&cx<blade+fw*1.2))cols[i]=Math.min(cols[i],2.5);}
