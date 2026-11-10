@@ -746,6 +746,32 @@ canvas.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:non
 .bqb.wrong{background:var(--bad);color:#fff}.bqb.wrong small{color:#fff}
 .bqb:disabled{cursor:default}
 .bqx{margin:8px 0 0;font-size:14px}
+/* ---------- Winter auf der Startseite ---------- */
+.snowsky{position:fixed;inset:0;z-index:2;pointer-events:none;width:100%;height:100%}
+.snowbank{position:relative;z-index:1;height:150px;margin-top:-24px;overflow:hidden;pointer-events:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.snowbank canvas{position:absolute;inset:0;width:100%;height:100%}
+.shovwrap{position:absolute;left:0;bottom:2px;width:104px;will-change:transform;transform:translateX(-200px)}
+.shov{display:block;width:100%;height:auto;overflow:visible;pointer-events:auto;cursor:pointer}
+.shovwrap.left .shov{transform:scaleX(-1)}
+.shov .sh-leg{transform-box:fill-box;transform-origin:50% 0}
+.shov.walk .sh-leg.f{animation:shLeg .9s ease-in-out infinite}
+.shov.walk .sh-leg.b{animation:shLeg .9s ease-in-out infinite reverse}
+@keyframes shLeg{0%,100%{transform:rotate(16deg)}50%{transform:rotate(-16deg)}}
+.shov.walk .sh-body{animation:shBob .45s ease-in-out infinite alternate}
+@keyframes shBob{from{transform:translateY(0)}to{transform:translateY(-2px)}}
+.shov .sh-arms{transform-box:view-box;transform-origin:64px 110px}
+.shov.walk .sh-arms{animation:shScoop 1.8s ease-in-out infinite}
+@keyframes shScoop{0%{transform:rotate(0)}55%{transform:translateX(4px) rotate(2deg)}68%{transform:rotate(-34deg)}82%{transform:rotate(-8deg)}100%{transform:rotate(0)}}
+.shov .sh-load{opacity:0}
+.shov.walk .sh-load{animation:shLoad 1.8s linear infinite}
+@keyframes shLoad{0%,15%{opacity:0}30%,64%{opacity:1}68%,100%{opacity:0}}
+.shov .sh-scarf{transform-box:fill-box;transform-origin:100% 0;animation:shScarf 1.2s ease-in-out infinite alternate}
+@keyframes shScarf{from{transform:rotate(-6deg)}to{transform:rotate(8deg)}}
+.shov .sh-head{transform-box:view-box;transform-origin:63px 88px}
+.shov.walk .sh-head{animation:shHead 1.8s ease-in-out infinite}
+@keyframes shHead{0%,100%{transform:rotate(0)}68%{transform:rotate(-4deg)}}
+@media(min-width:880px){.welcome.winter{grid-template-areas:"text stage" "text snow";grid-template-rows:auto auto}.welcome.winter .wtext{grid-area:text}.welcome.winter .stage{grid-area:stage;align-self:end}.snowbank{grid-area:snow;align-self:start;margin-top:-30px;height:150px}.shovwrap{width:112px}}
+@media(prefers-reduced-motion:reduce){.shov *{animation:none!important}}
 /* ---------- Wissen: 3D-Büro (office3d.js) ---------- */
 .o3d{position:relative;height:clamp(460px,72svh,680px);border-radius:24px;overflow:hidden;background:var(--surface-2);box-shadow:var(--shadow);outline:none;isolation:isolate}
 .o3d:focus-visible{box-shadow:var(--shadow),inset 0 0 0 3px var(--magenta)}
@@ -1065,7 +1091,7 @@ let onKey=null;
 document.addEventListener('keydown',e=>{if(onKey)onKey(e)});
 const $=id=>document.getElementById(id);
 let cheerTimer=null;
-function go(html){if(cheerTimer){clearInterval(cheerTimer);cheerTimer=null;}if(OFFICE){OFFICE.destroy();OFFICE=null;}app.innerHTML=html;window.scrollTo(0,0);}
+function go(html){if(cheerTimer){clearInterval(cheerTimer);cheerTimer=null;}if(OFFICE){OFFICE.destroy();OFFICE=null;}if(WINTER){WINTER.stop();WINTER=null;}app.innerHTML=html;window.scrollTo(0,0);}
 const blobs='<div class="blobs" aria-hidden="true"></div>';
 const bg=cid=>`<div class="bgart" aria-hidden="true">${ART[cid]}</div><div class="bgart two" aria-hidden="true">${ART[cid]}</div>`;
 const nowTime=()=>new Date().toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
@@ -1184,9 +1210,113 @@ function frame(c,o){
 
 /* ---------- Willkommen ---------- */
 const CHEERS=['Auf geht’s, du schaffst das!','Fünf Minuten am Tag reichen völlig.','Ich zeig dir alles, was deine Kunden fragen.','Jeder Fehler macht dich besser. Versprochen!','Klick auf „Los geht’s“, ich warte schon!','Tipp: Tipp mich an, ich kenne unnützes Microsoft-Wissen!'];
+/* ---------- Winter auf der Startseite: Schneefall und ein Schneeschipper im Tilly-Stil ----------
+   Nur von November bis Februar. Mit ?schnee=1 bzw. ?schnee=0 in der Adresse lässt es sich zum Testen erzwingen. */
+const winterNow=()=>{const q=/[?&]schnee=([01])/.exec(location.search);if(q)return q[1]==='1';const m=new Date().getMonth();return m>=10||m<=1;};
+let WINTER=null;
+function shovelerSVG(){
+  const skin='#F0BE9A',skinLt='#FAD6BC',skinDk='#D4946C',ink='#2B1D16',hair='#3A2A20',hairLt='#5A4232',lip='#8A3340',shirtDk='#7FA7D2',pants='#2F3A56',boot='#3B2A20';
+  return `<svg class="shov" viewBox="0 0 150 200" role="img" aria-label="Figur beim Schneeschippen">
+  <defs>
+    <radialGradient id="shSk" cx=".38" cy=".28" r=".8"><stop offset="0" stop-color="${skinLt}"/><stop offset=".6" stop-color="${skin}"/><stop offset="1" stop-color="#E3A882"/></radialGradient>
+    <linearGradient id="shSh" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D3E6F8"/><stop offset="1" stop-color="#A9CBEC"/></linearGradient>
+  </defs>
+  <g class="sh-body">
+    <g class="sh-leg b"><path d="M51 146h12l-1 38h-10z" fill="#252E46"/><ellipse cx="61" cy="188" rx="11" ry="6" fill="${boot}"/></g>
+    <g class="sh-leg f"><path d="M63 146h12l-1 38h-10z" fill="${pants}"/><ellipse cx="73" cy="188" rx="11" ry="6" fill="${boot}"/></g>
+    <path class="sh-scarf" d="M54 102q-10 4-18 14q-3 4 1 6q8-7 19-12z" fill="#C0006A"/>
+    <path d="M36 152c0-32 10-52 28-52s28 20 28 52z" fill="url(#shSh)"/>
+    <path d="M64 108v42" stroke="${shirtDk}" stroke-width="1.6"/>${[116,128,140].map(y=>`<circle cx="66.5" cy="${y}" r="1.6" fill="#fff" stroke="${shirtDk}" stroke-width=".6"/>`).join('')}
+    <path d="M42 150c0-14 2-26 6-34" stroke="${shirtDk}" stroke-width="1.6" fill="none" opacity=".5"/>
+    <rect x="57" y="86" width="14" height="14" rx="3" fill="${skinDk}"/>
+    <path d="M52 98q12 8 24 0l1 7q-13 7-26 0z" fill="#E20074"/>
+    <path d="M56 97l8 9-12 2zM72 97l-8 9 12 2z" fill="#E4F0FB" stroke="${shirtDk}" stroke-width="1"/><circle cx="54.5" cy="105.5" r="1.1" fill="${shirtDk}"/><circle cx="73.5" cy="105.5" r="1.1" fill="${shirtDk}"/>
+    <g class="sh-head">
+      <ellipse cx="32" cy="56" rx="6" ry="9" fill="${skin}" stroke="${skinDk}" stroke-width="1.5"/><ellipse cx="94" cy="56" rx="6" ry="9" fill="${skin}" stroke="${skinDk}" stroke-width="1.5"/>
+      <ellipse cx="63" cy="54" rx="31" ry="35" fill="url(#shSk)" stroke="${skinDk}" stroke-width="1.4" stroke-opacity=".55"/>
+      <path d="M31.5 54C28 30 42 15 62 15c22 0 35 13 32 37c-3-9-7-15-13-19c-6 6-20 8-33 3c-7 3-12 9-16.5 18z" fill="${hair}"/>
+      <path d="M48 36c8-9 22-13 34-10c-10-1-22 3-30 12z" fill="${hairLt}" opacity=".8"/>
+      <path d="M58 16q4-7 11-6q-5 3-6 8z" fill="${hair}"/>
+      <path d="M33 52q1 6 3 9M93 52q-1 6-3 9" stroke="${hair}" stroke-width="3" stroke-linecap="round"/>
+      <path d="M41 43q7-4 14-1M70 42q7-3 14 1" stroke="${hair}" stroke-width="4.2" fill="none" stroke-linecap="round"/>
+      ${[[48,54.5],[76,54.5]].map(([x,y])=>`<ellipse cx="${x}" cy="${y}" rx="4.3" ry="4.6" fill="#4C86C6"/><circle cx="${x}" cy="${y+.4}" r="2" fill="${ink}"/><circle cx="${x+1.5}" cy="${y-1.6}" r="1.2" fill="#fff"/>`).join('')}
+      <path d="M41 58q7 4 14 0M69 58q7 4 14 0" stroke="${skinDk}" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/>
+      <path d="M38 55l-3 1.6M88 55l3 1.6" stroke="${skinDk}" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M61.5 59q3 6.5-1.5 8q3 1.3 5.5-.5" stroke="${skinDk}" stroke-width="2.3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="41" cy="68" rx="5.5" ry="3.4" fill="#F08C7E" opacity=".4"/><ellipse cx="85" cy="68" rx="5.5" ry="3.4" fill="#F08C7E" opacity=".4"/>
+      <path d="M47 70q16 19 32 0z" fill="${lip}"/><path d="M50 71.5h26" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M56 80q7 3 14 0" stroke="#E2707E" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+    </g>
+    <g class="sh-arms">
+      <path d="M56 110q12 10 27 18" stroke="url(#shSh)" stroke-width="13" fill="none" stroke-linecap="round"/>
+      <path d="M72 116L128 178" stroke="#B98A5A" stroke-width="5" stroke-linecap="round"/><path d="M66 111h10" stroke="#3B2A20" stroke-width="5" stroke-linecap="round"/>
+      <path d="M118 171l26 9-7 17-27-7z" fill="#9AA4B6" stroke="#6E7890" stroke-width="2" stroke-linejoin="round"/><path d="M112 183l26 7" stroke="#E20074" stroke-width="3" stroke-linecap="round"/>
+      <path class="sh-load" d="M116 176q10-11 25-2q4 4-2 8l-24-4z" fill="#FFFFFF" stroke="#D6DDEE" stroke-width="1.2"/>
+      <circle cx="83" cy="128.5" r="6.5" fill="${skin}"/>
+      <path d="M72 112q16 22 30 38" stroke="url(#shSh)" stroke-width="13" fill="none" stroke-linecap="round"/>
+      <circle cx="103" cy="150" r="6.5" fill="${skin}"/>
+    </g>
+  </g></svg>`;
+}
+const SHOV_LINES=['Frisch geräumt, wie ein aufgeräumter Tenant!','Schnee von gestern!','Brr! Gut, dass es Teams fürs Homeoffice gibt.','Erst schippen, dann eine Lektion.','Bedingter Zugriff für Schneeflocken: nur mit Mütze!'];
+function startWinter(){
+  const bank=$('snowbank'),sky=$('snowsky');if(!bank||!sky)return null;
+  const still=reduced(),ctx=sky.getContext('2d'),gc=bank.querySelector('canvas').getContext('2d'),fig=bank.querySelector('.shovwrap'),svg=fig.querySelector('svg');
+  const dark=()=>getComputedStyle(document.body).backgroundColor.match(/\d+/g).slice(0,3).reduce((a,v,i)=>a+v*[.3,.59,.11][i],0)<110;
+  let W=0,H=0,BW=0,BH=0,dpr=Math.min(1.5,devicePixelRatio||1),flakes=[],cols=[],parts=[];const COL=4;
+  function size(){W=innerWidth;H=innerHeight;sky.width=W*dpr;sky.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    BW=bank.clientWidth;BH=bank.clientHeight;const c=gc.canvas;c.width=BW*dpr;c.height=BH*dpr;gc.setTransform(dpr,0,0,dpr,0,0);
+    const n=Math.ceil(BW/COL)+1;while(cols.length<n)cols.push(24+Math.random()*8);cols.length=n;
+    for(let k=0;k<8;k++)for(let i=1;i<cols.length-1;i++)cols[i]=(cols[i-1]+cols[i]*2+cols[i+1])/4;
+    const want=Math.round(Math.min(110,W*H/12000));while(flakes.length<want)flakes.push(flake(true));flakes.length=want;}
+  const flake=init=>({x:Math.random()*W,y:init?Math.random()*H:-10,r:.8+Math.random()*2.6,v:18+Math.random()*38,ph:Math.random()*6.3,sw:.4+Math.random()*.8});
+  function drawFlake(f,c){ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,7);ctx.fill();ctx.stroke();
+    if(f.r>2.6){ctx.save();ctx.translate(f.x,f.y);ctx.strokeStyle=c;ctx.lineWidth=.9;for(let i=0;i<3;i++){ctx.rotate(Math.PI/3);ctx.beginPath();ctx.moveTo(-f.r*2.1,0);ctx.lineTo(f.r*2.1,0);ctx.stroke();}ctx.restore();}}
+  function drawSky(){ctx.clearRect(0,0,W,H);const d=dark();ctx.fillStyle=d?'rgba(255,255,255,.85)':'rgba(255,255,255,.95)';ctx.strokeStyle=d?'rgba(0,0,0,0)':'rgba(120,100,170,.28)';ctx.lineWidth=.8;
+    flakes.forEach(f=>drawFlake(f,d?'rgba(255,255,255,.7)':'rgba(150,130,200,.55)'));}
+  function drawBank(){gc.clearRect(0,0,BW,BH);const d=dark();
+    gc.beginPath();gc.moveTo(0,BH);cols.forEach((h,i)=>gc.lineTo(i*COL,BH-h));gc.lineTo(BW,BH);gc.closePath();
+    const gr=gc.createLinearGradient(0,BH-44,0,BH);gr.addColorStop(0,d?'#F2F0FA':'#FFFFFF');gr.addColorStop(1,d?'#BDB6D8':'#D5DEF3');gc.fillStyle=gr;
+    gc.save();gc.shadowColor=d?'rgba(0,0,0,.5)':'rgba(110,90,170,.35)';gc.shadowBlur=10;gc.shadowOffsetY=-1;gc.fill();gc.restore();
+    gc.strokeStyle=d?'rgba(255,255,255,.7)':'rgba(140,125,190,.55)';gc.lineWidth=1.6;gc.beginPath();cols.forEach((h,i)=>i?gc.lineTo(i*COL,BH-h):gc.moveTo(0,BH-h));gc.stroke();
+    gc.fillStyle=d?'#F2F0FA':'#FFFFFF';parts.forEach(p=>{gc.globalAlpha=Math.max(0,p.a);gc.beginPath();gc.arc(p.x,p.y,p.r,0,7);gc.fill();});gc.globalAlpha=1;}
+  size();
+  /* Ruhige Darstellung bei „Bewegung reduzieren“: liegender Schnee, Figur steht mit Schaufel */
+  if(still){fig.style.transform=`translateX(${Math.max(0,BW-fig.offsetWidth-24)}px)`;drawSky();drawBank();return {stop(){}}};
+  let dir=1,x=-200,state='wait',wait=1.2,t0=performance.now(),lastPh=0,raf=0,last=performance.now(),clearFrom=null;
+  const FW=()=>fig.offsetWidth;
+  function walkStart(){state='walk';x=dir>0?-FW():BW;svg.classList.add('walk');fig.classList.toggle('left',dir<0);t0=performance.now();lastPh=0;}
+  function frame(now){
+    raf=requestAnimationFrame(frame);if(document.hidden){last=now;return;}
+    const dt=Math.min(.05,(now-last)/1000);last=now;
+    flakes.forEach(f=>{f.y+=f.v*dt;f.x+=Math.sin(now/1000*f.sw+f.ph)*12*dt;if(f.y>H+6||f.x<-10||f.x>W+10)Object.assign(f,flake(false));});
+    /* Schnee wächst langsam nach */
+    for(let i=0;i<cols.length;i++)if(cols[i]<40)cols[i]+=dt*(.6+Math.random()*.8);
+    for(let i=1;i<cols.length-1;i++)cols[i]=cols[i]*.96+(cols[i-1]+cols[i+1])*.02;
+    if(state==='wait'){wait-=dt;if(wait<=0)walkStart();}
+    else{
+      const ph=((now-t0)/1800)%1,fw=FW(),blade=dir>0?x+fw*.95:x+fw*.05;
+      x+=dir*(ph<.6?44:10)*dt;fig.style.transform=`translateX(${x}px)`;
+      /* Schaufel räumt: hinter dem Blatt bleibt ein geräumter Weg */
+      let moved=0;const ci=Math.round(blade/COL);for(let k=-2;k<=2;k++){const i=ci+k;if(i>=0&&i<cols.length&&cols[i]>3){moved+=cols[i]-2.5;cols[i]=2.5;}}
+      for(let i=0;i<cols.length;i++){const cx=i*COL;if((dir>0&&cx<blade&&cx>blade-fw*1.2)||(dir<0&&cx>blade&&cx<blade+fw*1.2))cols[i]=Math.min(cols[i],2.5);}
+      /* Wurf über die Schulter, passend zur Schaufelbewegung */
+      if(lastPh<.66&&ph>=.66){const n=10+Math.round(Math.random()*8);for(let k=0;k<n;k++)parts.push({x:blade,y:BH-22,vx:-dir*(50+Math.random()*120),vy:-(140+Math.random()*120),r:1.5+Math.random()*3.5,a:1});}
+      lastPh=ph;
+      if((dir>0&&x>BW+10)||(dir<0&&x<-fw-10)){state='wait';wait=9+Math.random()*6;dir=-dir;svg.classList.remove('walk');}
+    }
+    parts.forEach(p=>{p.vy+=420*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.a-=dt*.9;p.r*=1-dt*.4;});parts=parts.filter(p=>p.a>0&&p.y<BH+10);
+    drawSky();drawBank();
+  }
+  raf=requestAnimationFrame(frame);
+  const onResize=()=>size();addEventListener('resize',onResize);
+  svg.addEventListener('click',()=>tSay(svg,SHOV_LINES[Math.floor(Math.random()*SHOV_LINES.length)],2600));
+  return {stop(){cancelAnimationFrame(raf);removeEventListener('resize',onResize);}};
+}
+
 function welcome(){
   const orbs=[[0,8],[76,0],[82,60],[4,66],[40,82],[64,22]];
-  go(`${blobs}<div class="welcome gut">
+  const win=winterNow();
+  go(`${blobs}${win?'<canvas class="snowsky" id="snowsky" aria-hidden="true"></canvas>':''}<div class="welcome gut${win?' winter':''}">
     <div class="wtext">
       <div class="brand">${LOGO}MagentaLingo</div>
       <span class="kicker">${S.started&&S.name?`Willkommen zurück, ${esc(S.name)}`:'Für den Vertrieb'}</span>
@@ -1205,7 +1335,9 @@ function welcome(){
       ${CATS.map((c,i)=>`<span class="orb ch-${c.id}" aria-hidden="true" style="left:${orbs[i][0]}%;top:${orbs[i][1]}%">${I[c.ic]}</span>`).join('')}
       <div class="cheer" role="status" aria-live="polite"><span class="csx">${CHEERS[0]}</span></div>
       ${mascot('cheer','float')}</div>
+    ${win?`<div class="snowbank" id="snowbank"><canvas aria-hidden="true"></canvas><div class="shovwrap">${shovelerSVG()}</div></div>`:''}
   </div>`);
+  if(win)WINTER=startWinter();
   onKey=null;
   const nm=$('nm'),er=$('werr');
   nm.oninput=()=>{if(nm.value.trim()){er.hidden=true;nm.removeAttribute('aria-invalid');}};
