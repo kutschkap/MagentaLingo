@@ -831,8 +831,8 @@ body.o3d-max{overflow:hidden}
 <div id="app"></div>
 
 <!-- Versionsnummer bei jeder Änderung an content.js/office3d.js erhöhen, damit Browser nicht die alte Datei behalten -->
-<script>const APP_V='2026-10-29c';</script>
-<script src="content.js?v=2026-10-29c"></script>
+<script>const APP_V='2026-11-20';</script>
+<script src="content.js?v=2026-11-20"></script>
 <script>
 /* ---------- Icons ---------- */
 const I={
@@ -881,7 +881,7 @@ const ART={
   lic:'<svg viewBox="0 0 200 200" fill="currentColor"><rect x="20" y="16" width="120" height="160" rx="12"/><circle cx="150" cy="140" r="34" opacity=".7"/></svg>'
 };
 
-/* ---------- Figur „Tilly“: Glatze, schwarze kantige Brille, freundlicher Blick ---------- */
+/* ---------- Figur „Tilly“: Glatze mit ein paar Haaren, schwarze kantige Brille, freundlicher Blick ---------- */
 let moId=0;
 function mascot(mood='happy',cls='',opt={}){
   const id='t'+(moId++),ink='#2B1D16',skin='#F0BE9A',skinLt='#FAD6BC',skinDk='#D4946C',lip='#8A3340',shirt='#E20074',shirtDk='#A3005A',frame='#15111A';
@@ -916,7 +916,7 @@ function mascot(mood='happy',cls='',opt={}){
   const armUp=(side,cl)=>{const s=side==='r'?1:-1,x=60+s*36;
     return `<g class="${side==='r'?'arm-r ':''}${cl}"><path d="M${60+s*28} 112 Q${x+s*10} 97 ${x+s*6} 77" stroke="url(#${id}s)" stroke-width="15" fill="none" stroke-linecap="round"/><circle cx="${x+s*6}" cy="70" r="8.5" fill="${skin}"/><path d="M${x+s*6-4} 64v-3M${x+s*6} 63v-3.5M${x+s*6+4} 64v-3" stroke="${skin}" stroke-width="4" stroke-linecap="round"/></g>`;};
   const arms=mood==='cheer'?armUp('l','')+armUp('r',''):mood==='wave'?armUp('r','arm-w'):'';
-  const vb=opt.head?'22 12 76 80':'-6 -4 132 138';
+  const vb=opt.head?'22 8 76 84':'-6 -4 132 138';
   return `<svg class="mo ${cls}${mood==='wave'||mood==='cheer'?' up':''}${opt.head?' head':''}" viewBox="${vb}" role="img" aria-label="Tilly">
     <defs>
       <radialGradient id="${id}" cx=".38" cy=".28" r=".8"><stop offset="0" stop-color="${skinLt}"/><stop offset=".6" stop-color="${skin}"/><stop offset="1" stop-color="#E3A882"/></radialGradient>
@@ -938,6 +938,7 @@ function mascot(mood='happy',cls='',opt={}){
       <ellipse cx="60" cy="53.5" rx="31.5" ry="36" fill="url(#${id})" stroke="${skinDk}" stroke-width="1.4" stroke-opacity=".55"/>
       <path class="t-shine" d="M40 30q8-11 22-11" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" opacity=".55"/>
       <circle cx="68" cy="22" r="2.4" fill="#fff" opacity=".55"/>
+      <path class="t-hair" d="M55.5 19q-3-5 0-8.5M60.5 18q0-6 4-7.5q2.6-.6 2.4 1.8M65.5 19q2.5-4.5 6.5-5.5" stroke="#4A3328" stroke-width="2.4" fill="none" stroke-linecap="round"/>
       <ellipse cx="39" cy="68.5" rx="5.5" ry="3.6" fill="#F08C7E" opacity=".38"/><ellipse cx="81" cy="68.5" rx="5.5" ry="3.6" fill="#F08C7E" opacity=".38"/>
       <g class="t-brows">${brows}</g>
       <g class="t-eye l">${eL}</g><g class="t-eye r">${eR}</g>
