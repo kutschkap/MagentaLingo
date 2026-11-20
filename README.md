@@ -13,6 +13,18 @@ Am besten über GitHub Pages aufrufen. Beim direkten Öffnen von `index.html` l�
 
 **Steuerung im 3D-Büro:** Auf den Boden tippen zum Laufen, leuchtende Punkte öffnen die Tool-Karten, unten direkt in einen Raum springen. Ziehen dreht die Ansicht, Mausrad oder +/− zoomt. Am Rechner gehen auch WASD bzw. Pfeiltasten und Q/E zum Drehen.
 
+## Als eine Datei herunterladen
+
+Fertige Datei: [MagentaLingo.zip](https://kutschkap.github.io/MagentaLingo/download/MagentaLingo.zip) herunterladen, entpacken, `MagentaLingo.html` doppelklicken.
+
+Neu bauen:
+
+```bash
+node tools/build-standalone.js MagentaLingo.html
+```
+
+Das erzeugt `MagentaLingo.html` mit allem drin (Inhalte, Schriften, Icons, 3D-Büro). Die Datei öffnet sich per Doppelklick, ohne Entpacken und ohne Webserver. Nur der Offline-Speicher der App fehlt, der Lernstand bleibt wie gewohnt im Browser.
+
 ## Aufbau
 
 | Datei | Inhalt |
@@ -24,6 +36,7 @@ Am besten über GitHub Pages aufrufen. Beim direkten Öffnen von `index.html` l�
 | `vendor/three/` | Three.js 0.170 (MIT-Lizenz), lokal ausgeliefert |
 | `sw.js`, `manifest.webmanifest` | Offline-Nutzung und Installation als App |
 | `tools/check-content.js` | Prüft die Inhalte |
+| `tools/build-standalone.js` | Baut die Download-Datei `MagentaLingo.html` |
 
 ## Inhalte ändern
 
