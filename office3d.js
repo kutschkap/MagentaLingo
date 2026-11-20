@@ -126,7 +126,7 @@ export function mount(root,api){
   function chair(c='#3B3552'){const g=new THREE.Group();put(rb(.44,.07,.44,c),0,.46,0,0,g);put(rb(.44,.46,.07,c),0,.72,-.2,0,g);put(cyl(.03,.03,.4,'#77738A'),0,.23,0,0,g);put(cyl(.2,.2,.03,'#77738A'),0,.03,0,0,g);return g;}
   function desk(w=1.4,d=.75,c='#E8DCCB'){const g=new THREE.Group();put(rb(w,.05,d,c),0,.74,0,0,g);[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([a,b])=>put(rb(.05,.72,.05,'#8C8899'),a*(w/2-.06),.36,b*(d/2-.06),0,g));return g;}
   function box(w,h,d,c='#D9B38C'){const g=new THREE.Group();put(rb(w,h,d,c,.02),0,h/2,0,0,g);put(rb(w*1.002,.02,.06,'#B98E62',.005),0,h+.002,0,0,g);return g;}
-  function person({shirt,pants='#2F2A40',skin='#F0BE9A',hair=null,capc=null,glasses=false,item=null}){
+  function person({shirt,pants='#2F2A40',skin='#F0BE9A',hair=null,capc=null,glasses=false,item=null,strands=false}){
     const g=new THREE.Group(),legs=[],arms=[];
     [-.1,.1].forEach(x=>{const p=new THREE.Group();put(cap(.085,.42,pants),0,-.3,0,0,p);put(rb(.14,.08,.24,'#2A2438',.03),0,-.6,.04,0,p);p.position.set(x,.66,0);g.add(p);legs.push(p);});
     put(cap(.22,.34,shirt),0,1.0,0,0,g);
@@ -136,6 +136,8 @@ export function mount(root,api){
     put(sph(.028,'#2B1D16'),-.085,.02,.225,0,head);put(sph(.028,'#2B1D16'),.085,.02,.225,0,head);
     const sm=new THREE.Mesh(geo('smile',()=>new THREE.TorusGeometry(.07,.014,8,16,Math.PI)),mat('#8A3340'));sm.position.set(0,-.08,.225);sm.rotation.z=Math.PI;head.add(sm);
     if(glasses){[-.095,.095].forEach(x=>{const f=new THREE.Mesh(geo('glass',()=>new THREE.TorusGeometry(.062,.016,8,4)),mat('#15111A'));f.rotation.z=Math.PI/4;f.scale.set(1.15,.85,1);f.position.set(x,.025,.235);head.add(f);});put(rb(.06,.016,.016,'#15111A',.005),0,.035,.24,0,head);}
+    /* ein paar Haare oben auf dem Kopf (Tilly) */
+    if(strands)[[-.06,-.35],[.02,.1],[.09,.5]].forEach(([x,rz],i)=>{const s=mesh(geo('strand'+i,()=>new THREE.TorusGeometry(.06+i*.012,.011,6,14,Math.PI*.9)),mat('#4A3328'),false);s.position.set(x,.27,.02);s.rotation.set(0,Math.PI/2,rz);head.add(s);});
     if(hair){const h=mesh(geo('hair',()=>new THREE.SphereGeometry(.265,24,12,0,Math.PI*2,0,Math.PI/2.2)),mat(hair));h.position.y=.02;h.rotation.x=-.25;head.add(h);}
     if(capc){put(cyl(.25,.26,.12,capc),0,.2,0,0,head);put(rb(.3,.025,.2,capc,.01),0,.15,.2,0,head);}
     if(item==='clip'){const c=put(rb(.22,.3,.02,'#C99A6B',.01),.1,-.12,.12,0,arms[1]);c.rotation.x=-.6;put(rb(.16,.2,.005,'#FFFFFF',.002),.1,-.12,.135,0,arms[1]).rotation.x=-.6;arms[1].rotation.x=-.7;}
@@ -397,7 +399,7 @@ export function mount(root,api){
   const blocked=(x,z)=>walls.some(b=>x>b[0]-R&&x<b[1]+R&&z>b[2]-R&&z<b[3]+R);
 
   /* ---------- Tilly ---------- */
-  const tilly=person({shirt:'#E20074',pants:'#2A2438',glasses:true});
+  const tilly=person({shirt:'#E20074',pants:'#2A2438',glasses:true,strands:true});
   const logo=put(rb(.14,.14,.02,'#FFFFFF',.02),0,1.12,.215,0,tilly.g);
   const ring=mesh(geo('tring',()=>new THREE.RingGeometry(.32,.42,32)),new THREE.MeshBasicMaterial({color:'#E20074',transparent:true,opacity:.55}),false);ring.rotation.x=-Math.PI/2;ring.position.y=.02;
   const av=new THREE.Group();av.add(tilly.g,ring);scene.add(av);
